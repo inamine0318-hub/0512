@@ -760,7 +760,7 @@ export default function App() {
           height: 4,
           vx: (Math.random() - 0.5) * 15,
           vy: (Math.random() - 0.5) * 15,
-          life: 30,
+          life: 1,
           color: '#4ade80'
         });
       }
@@ -797,7 +797,7 @@ export default function App() {
           g.particles.push({
             x: enemy.x + enemy.width / 2 + (Math.random() - 0.5) * 50,
             y: enemy.y + enemy.height / 2 + (Math.random() - 0.5) * 50,
-            width: 10, height: 10, vx: (Math.random() - 0.5) * 10, vy: (Math.random() - 0.5) * 10, life: 20, color: '#94a3b8'
+            width: 10, height: 10, vx: (Math.random() - 0.5) * 10, vy: (Math.random() - 0.5) * 10, life: 1, color: '#94a3b8'
           });
         }
       }
@@ -1341,7 +1341,7 @@ export default function App() {
           bWidth = BULLET_SIZE * 1.5;
           bHeight = BULLET_SIZE * 3;
         } else if (g.player.type === 'CICADA') {
-          bDamage = pLevel === 3 ? 1.0 : 0.5;
+          bDamage = pLevel === 3 ? 1.0 : 0.8;
           bSpeed = pLevel === 3 ? 8 : 6;
           bColor = '#86efac';
           bWidth = pLevel === 3 ? BULLET_SIZE * 0.8 : BULLET_SIZE * 0.7;
@@ -1352,7 +1352,7 @@ export default function App() {
           bWidth = BULLET_SIZE * 2;
           bHeight = BULLET_SIZE * 0.5; // Scythe shape
         } else if (g.player.type === 'GRASSHOPPER') {
-          bDamage = g.lastStandActive ? 5.0 : 0.4;
+          bDamage = g.lastStandActive ? 5.0 : 0.7;
           bSpeed = 16;
           bColor = g.lastStandActive ? '#facc15' : '#4ade80';
           bWidth = BULLET_SIZE * 0.6;
@@ -1732,7 +1732,7 @@ export default function App() {
                 height: 2,
                 vx: (Math.random() - 0.5) * 5,
                 vy: (Math.random() - 0.5) * 5,
-                life: 15,
+                life: 1,
                 color: '#4ade80'
               });
             }
@@ -1754,7 +1754,7 @@ export default function App() {
                 height: 2,
                 vx: (Math.random() - 0.5) * 5,
                 vy: (Math.random() - 0.5) * 5,
-                life: 15,
+                life: 1,
                 color: '#4ade80'
               });
             }
@@ -1781,7 +1781,7 @@ export default function App() {
                   height: 4,
                   vx: (Math.random() - 0.5) * 10,
                   vy: (Math.random() - 0.5) * 10,
-                  life: 20,
+                  life: 1,
                   color: e.color || '#fff'
                 });
               }
@@ -2252,7 +2252,7 @@ export default function App() {
                   height: 2,
                   vx: (Math.random() - 0.5) * 4,
                   vy: (Math.random() - 0.5) * 4,
-                  life: 20,
+                  life: 1,
                   color: b.color
                 });
               }
@@ -3898,7 +3898,7 @@ export default function App() {
               height: 5,
               vx: (Math.random() - 0.5) * 15,
               vy: (Math.random() - 0.5) * 15,
-              life: 50,
+              life: 1,
               color: `hsl(${Math.random() * 360}, 80%, 60%)`
             });
           }
@@ -4403,9 +4403,9 @@ export default function App() {
                   ))}
                 </div>
                 <div className="flex gap-1">
-                  {Array.from({ length: 3 }).map((_, i) => (
-                    <div 
-                      key={i} 
+                  {Array.from({ length: selectedCharacter === 'GOLDEN_HERCULES' ? 4 : 3 }).map((_, i) => (
+                    <div
+                      key={i}
                       className={`w-3 h-1 sm:w-4 sm:h-1 rounded-full ${i < powerLevel ? 'bg-[#4ade80]' : 'bg-gray-700'}`}
                     />
                   ))}
