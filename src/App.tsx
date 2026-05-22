@@ -393,6 +393,26 @@ interface Particle extends Entity {
   type?: 'DOT' | 'SHOCKWAVE';
 }
 
+class ErrorBoundary extends React.Component<{children: React.ReactNode}, {error: Error | null}> {
+  constructor(props: {children: React.ReactNode}) {
+    super(props);
+    this.state = { error: null };
+  }
+  static getDerivedStateFromError(error: Error) { return { error }; }
+  render() {
+    if (this.state.error) {
+      return (
+        <div style={{ position: 'fixed', inset: 0, background: '#0a150a', color: '#fff', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 24 }}>
+          <div style={{ fontSize: 24, marginBottom: 16 }}>エラーが発生しました</div>
+          <pre style={{ fontSize: 12, color: '#f87171', maxWidth: 400, wordBreak: 'break-all', whiteSpace: 'pre-wrap' }}>{this.state.error.message}</pre>
+          <button onClick={() => { this.setState({ error: null }); window.location.reload(); }} style={{ marginTop: 24, padding: '8px 24px', background: '#4ade80', color: '#000', borderRadius: 24, fontWeight: 'bold' }}>リロード</button>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
 export default function App() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isPaused, setIsPaused] = useState(false);
@@ -634,9 +654,9 @@ export default function App() {
       dragonflyActive: false,
       dragonflyTimer: 0,
       silverStagCharges: initialSilverStagCharges,
-      isReflectShieldActive: false,
-      reflectShieldTimer: 0,
-      reflectShieldCooldown: 0,
+      isBigBeamActive: false,
+      bigBeamTimer: 0,
+      bigBeamCooldown: 0,
       timeStopActive: false,
       timeStopTimer: 0,
       isMissionCompleteActive: false,
@@ -1277,6 +1297,16 @@ export default function App() {
           bSpeed = 9;
           bColor = '#57534e';
           bWidth = BULLET_SIZE * 1.4;
+        } else if (g.player.type === 'SILVER_STAG_BEETLE') {
+          bDamage = 1.5;
+          bSpeed = 11;
+          bColor = '#cbd5e1';
+          bWidth = BULLET_SIZE;
+        } else if (g.player.type === 'DRAGONFLY') {
+          bDamage = 0.6;
+          bSpeed = 13;
+          bColor = '#ef4444';
+          bWidth = BULLET_SIZE * 0.8;
         }
 
         const createBullet = (x: number, y: number, vx?: number, vy?: number) => {
@@ -1422,6 +1452,21 @@ export default function App() {
                 damage: bDamage * 5,
                 color: '#fff'
               });
+            }
+          } else if (g.player.type === 'SILVER_STAG_BEETLE') {
+            // 8-way spread + homing missiles
+            for (let i = -3; i <= 3; i += 2) {
+              createBullet(g.player.x + g.player.width / 2 - bWidth / 2 + i * 8, g.player.y);
+            }
+            if (g.frameCount % 30 === 0) {
+              for (let k = -1; k <= 1; k += 2) {
+                g.bullets.push({ x: g.player.x + g.player.width / 2 + k * 30, y: g.player.y + 20, width: 8, height: 14, speed: 8, vx: k * 2, vy: -2, homing: true, damage: 2.0, color: '#94a3b8' });
+              }
+            }
+          } else if (g.player.type === 'DRAGONFLY') {
+            // Homing spread
+            for (let i = -2; i <= 2; i++) {
+              g.bullets.push({ x: g.player.x + g.player.width / 2 - bWidth / 2 + i * 8, y: g.player.y, width: bWidth, height: bHeight, speed: bSpeed, vx: i * 1.5, vy: -bSpeed, homing: true, damage: bDamage, color: bColor });
             }
           } else {
             // Standard 3-way for Beetle
