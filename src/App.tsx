@@ -937,18 +937,50 @@ export default function App() {
     sounds.playPowerUp();
     sounds.playBGM(gameRef.current.stage);
     setIsPaused(false);
-    
-    const initialLives = selectedCharacter === 'CICADA' ? 2 
-      : selectedCharacter === 'GOLDEN_HERCULES' ? 4 
+
+    const initialLives = selectedCharacter === 'CICADA' ? 2
+      : selectedCharacter === 'GRASSHOPPER' ? 2
+      : selectedCharacter === 'SILVER_STAG_BEETLE' ? 4
+      : selectedCharacter === 'GOLDEN_HERCULES' ? 4
       : 3;
     const initialBombs = selectedCharacter === 'GOLDEN_HERCULES' ? 3 : 0;
     const initialShields = selectedCharacter === 'BEETLE' ? 3 : 0;
-    
+    const initialButterflyCharges = selectedCharacter === 'BUTTERFLY' ? 3 : 0;
+    const initialLadybugCharges = selectedCharacter === 'LADYBUG' ? 2 : 0;
+    const initialCicadaCharges = selectedCharacter === 'CICADA' ? 3 : 0;
+    const initialMantisCharges = selectedCharacter === 'MANTIS' ? 3 : 0;
+    const initialGrasshopperCharges = selectedCharacter === 'GRASSHOPPER' ? 3 : 0;
+    const initialStagBeetleCharges = selectedCharacter === 'STAG_BEETLE' ? 3 : 0;
+    const initialHerculesCharges = selectedCharacter === 'HERCULES' ? 3 : 0;
+    const initialDragonflyCharges = selectedCharacter === 'DRAGONFLY' ? 3 : 0;
+    const initialSilverStagCharges = selectedCharacter === 'SILVER_STAG_BEETLE' ? 3 : 0;
+
     setGameState('PLAYING');
     setLives(initialLives);
     setBombs(initialBombs);
     setShields(initialShields);
-    
+    setButterflyCharges(initialButterflyCharges);
+    setLadybugCharges(initialLadybugCharges);
+    setCicadaCharges(initialCicadaCharges);
+    setMantisCharges(initialMantisCharges);
+    setGrasshopperCharges(initialGrasshopperCharges);
+    setStagBeetleCharges(initialStagBeetleCharges);
+    setHerculesCharges(initialHerculesCharges);
+    setDragonflyCharges(initialDragonflyCharges);
+    setSilverStagCharges(initialSilverStagCharges);
+    setIsBigBeamActive(false);
+    setBigBeamCooldown(0);
+    setDragonflyActive(false);
+    setIsShieldActive(false);
+    setIsButterflyActive(false);
+    setIsLadybugActive(false);
+    setIsCicadaActive(false);
+    setIsXSlashActive(false);
+    setIsLastStandActive(false);
+    setIsTimeStopActive(false);
+    setIsMissionCompleteActive(false);
+    setPowerLevel(1);
+
     const g = gameRef.current;
     g.bullets = [];
     g.enemies = [];
@@ -957,6 +989,7 @@ export default function App() {
     g.items = [];
     g.particles = [];
     g.backgroundParticles = [];
+    g.flightParticles = [];
     g.isInvulnerable = 120;
     g.enemiesKilledInStage = 0;
     g.bossSpawned = false;
@@ -966,7 +999,38 @@ export default function App() {
     g.shields = initialShields;
     g.isShieldActive = false;
     g.shieldTimer = 0;
-    setIsShieldActive(false);
+    g.butterflyCharges = initialButterflyCharges;
+    g.butterflyActive = false;
+    g.butterflyTimer = 0;
+    g.ladybugCharges = initialLadybugCharges;
+    g.ladybugBeamActive = false;
+    g.ladybugBeamTimer = 0;
+    g.cicadaCharges = initialCicadaCharges;
+    g.cicadaActive = false;
+    g.cicadaTimer = 0;
+    g.mantisCharges = initialMantisCharges;
+    g.isXSlashActive = false;
+    g.xSlashTimer = 0;
+    g.grasshopperCharges = initialGrasshopperCharges;
+    g.lastStandActive = false;
+    g.lastStandTimer = 0;
+    g.lastStandCooldown = 0;
+    g.stagBeetleCharges = initialStagBeetleCharges;
+    g.timeStopActive = false;
+    g.timeStopTimer = 0;
+    g.herculesCharges = initialHerculesCharges;
+    g.dragonflyActive = false;
+    g.dragonflyTimer = 0;
+    g.silverStagCharges = initialSilverStagCharges;
+    g.isBigBeamActive = false;
+    g.bigBeamTimer = 0;
+    g.bigBeamCooldown = 0;
+    g.isMissionCompleteActive = false;
+    g.missionCompleteTimer = 0;
+    g.screenShake = 0;
+    g.playerTilt = 0;
+    g.powerLevel = 1;
+    g.bombs = initialBombs;
     g.player.x = CANVAS_WIDTH / 2 - PLAYER_SIZE / 2;
     g.player.y = CANVAS_HEIGHT - 100;
   };
