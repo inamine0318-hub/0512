@@ -4821,7 +4821,7 @@ export default function App() {
                         </div>
                       </div>
                       {selectedCharacter === char && (
-                        <motion.div layoutId="activeChar" className={`absolute -bottom-1 w-1 h-1 rounded-full ${char === 'GOLDEN_HERCULES' ? 'bg-yellow-400' : 'bg-[#4ade80]'}`} />
+                        <div className={`absolute -bottom-1 w-1 h-1 rounded-full ${char === 'GOLDEN_HERCULES' ? 'bg-yellow-400' : 'bg-[#4ade80]'}`} />
                       )}
                     </button>
                   );
