@@ -4,7 +4,7 @@
  */
 
 import React, { useEffect, useRef, useState, useCallback } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+// motion/react removed to prevent removeChild crash on mobile
 import { Play, Pause, RotateCcw, Trophy, Heart, Zap, Shield, Volume2, VolumeX, MessageCircle, Clock, Sword, Lock, LayoutGrid, Eye } from 'lucide-react';
 
 // --- Sound Manager ---
@@ -4697,34 +4697,26 @@ export default function App() {
         )}
         </div>
 
-        <AnimatePresence>
+        <>
           {isPaused && gameState === 'PLAYING' && (
-            <motion.div
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
+            <div
               className="absolute top-20 left-0 right-0 flex justify-center z-[60] pointer-events-none"
             >
               <div className="bg-black/40 backdrop-blur-sm border border-[#4ade80]/30 px-6 py-2 rounded-full shadow-[0_0_20px_rgba(0,0,0,0.5)]">
                 <h2 className="text-xl font-black italic uppercase text-[#4ade80] tracking-[0.2em]">PAUSED</h2>
               </div>
-            </motion.div>
+            </div>
           )}
 
           {gameState === 'START' && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
+            <div
               className="absolute inset-0 bg-black/80 flex flex-col items-center justify-start text-center p-4 overflow-y-auto scrollbar-hide"
             >
-              <motion.h1 
-                initial={{ y: -20 }}
-                animate={{ y: 0 }}
+              <h1
                 className="text-3xl sm:text-4xl font-black italic uppercase tracking-tighter mb-1 text-[#4ade80] mt-2"
               >
                 Insect Swarm
-              </motion.h1>
+              </h1>
               <p className="text-[8px] sm:text-[10px] opacity-70 mb-2 max-w-xs">
                 Defend the forest floor from the invasive swarm.
               </p>
@@ -4921,14 +4913,11 @@ export default function App() {
                   Attack
                 </div>
               </div>
-            </motion.div>
+            </div>
           )}
 
           {gameState === 'STAGE_CLEAR' && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0 }}
+            <div
               className="absolute inset-0 bg-black/90 flex flex-col items-center justify-center text-center p-6 z-50"
             >
               <h2 className="text-3xl font-black italic text-[#4ade80] mb-2 uppercase tracking-tighter">Mission Accomplished</h2>
@@ -4947,21 +4936,16 @@ export default function App() {
                   Preparing Next Mission...
                 </div>
               </div>
-            </motion.div>
+            </div>
           )}
 
           {gameState === 'VICTORY' && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
+            <div
               className="absolute inset-0 bg-black/90 flex flex-col items-center justify-center text-center p-8 z-50"
             >
-              <motion.div
-                animate={{ rotate: [0, 10, -10, 0] }}
-                transition={{ repeat: Infinity, duration: 2 }}
-              >
+              <div>
                 <Trophy className="w-20 h-20 text-yellow-500 mb-4" />
-              </motion.div>
+              </div>
               <h2 className="text-4xl font-black italic uppercase text-[#4ade80] mb-2">Mission Accomplished</h2>
               <p className="text-sm opacity-70 mb-8">You have defeated the Giant Mantis and saved the forest!</p>
               <div className="mb-8">
@@ -4993,13 +4977,11 @@ export default function App() {
                   LINEで友達に送る
                 </a>
               </div>
-            </motion.div>
+            </div>
           )}
 
           {gameState === 'GAMEOVER' && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
+            <div
               className="absolute inset-0 bg-black/90 flex flex-col items-center justify-center text-center p-8 z-50"
             >
               <h2 className="text-6xl font-black italic uppercase text-red-500 mb-2">Defeated</h2>
@@ -5007,16 +4989,14 @@ export default function App() {
                 <div className="text-sm opacity-50 uppercase tracking-widest mb-1">Final Score</div>
                 <div className="text-5xl font-bold text-white">{score.toLocaleString()}</div>
               </div>
-              
+
               {score >= highScore && score > 0 && (
-                <motion.div 
-                  initial={{ y: 10, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
+                <div
                   className="bg-yellow-500/20 border border-yellow-500/50 text-yellow-500 px-4 py-2 rounded-lg mb-8 flex items-center gap-2"
                 >
                   <Zap className="w-4 h-4 fill-yellow-500" />
                   NEW HIGH SCORE!
-                </motion.div>
+                </div>
               )}
 
               <div className="flex flex-col gap-3 w-full max-w-[280px]">
@@ -5055,9 +5035,9 @@ export default function App() {
                   URLコピー
                 </button>
               </div>
-            </motion.div>
+            </div>
           )}
-        </AnimatePresence>
+        </>
       </div>
 
       {/* Footer info */}
