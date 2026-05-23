@@ -4,6 +4,30 @@ import {createRoot} from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
 
+// DEBUG: intercept removeChild to capture exact stack trace on mobile
+(function() {
+  const orig = Node.prototype.removeChild;
+  (Node.prototype as any).removeChild = function(child: Node) {
+    try {
+      return orig.call(this, child);
+    } catch(e) {
+      const stack = (e as Error).stack ?? String(e);
+      const info = [
+        'PARENT: ' + (this as Element).tagName + ' class=' + ((this as Element).className ?? '').slice(0, 60),
+        'CHILD:  ' + (child as Element).tagName + ' class=' + ((child as Element).className ?? '').slice(0, 60),
+        '',
+        ...stack.split('\n').slice(0, 18),
+      ].join('\n');
+      sessionStorage.setItem('__rcErr', info);
+      const el = document.createElement('pre');
+      el.style.cssText = 'position:fixed;inset:0;background:#000;color:#f87171;font-size:10px;padding:12px;z-index:99999;overflow:auto;white-space:pre-wrap;word-break:break-all';
+      el.textContent = '=== removeChild ERROR ===\n' + info + '\n\n(このスクリーンショットを送ってください)';
+      document.body.appendChild(el);
+      throw e;
+    }
+  };
+})();
+
 class RootErrorBoundary extends React.Component<{children: React.ReactNode}, {error: Error | null}> {
   constructor(props: {children: React.ReactNode}) { super(props); this.state = { error: null }; }
   static getDerivedStateFromError(error: Error) { return { error }; }
