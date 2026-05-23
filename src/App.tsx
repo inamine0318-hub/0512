@@ -4698,19 +4698,18 @@ export default function App() {
         </div>
 
         <>
-          {isPaused && gameState === 'PLAYING' && (
-            <div
+          <div
               className="absolute top-20 left-0 right-0 flex justify-center z-[60] pointer-events-none"
+              style={{ display: isPaused && gameState === 'PLAYING' ? 'flex' : 'none' }}
             >
               <div className="bg-black/40 backdrop-blur-sm border border-[#4ade80]/30 px-6 py-2 rounded-full shadow-[0_0_20px_rgba(0,0,0,0.5)]">
                 <h2 className="text-xl font-black italic uppercase text-[#4ade80] tracking-[0.2em]">PAUSED</h2>
               </div>
             </div>
-          )}
 
-          {gameState === 'START' && (
-            <div
+          <div
               className="absolute inset-0 bg-black/80 flex flex-col items-center justify-start text-center p-4 overflow-y-auto scrollbar-hide"
+              style={{ display: gameState === 'START' ? 'flex' : 'none' }}
             >
               <h1
                 className="text-3xl sm:text-4xl font-black italic uppercase tracking-tighter mb-1 text-[#4ade80] mt-2"
@@ -4914,11 +4913,10 @@ export default function App() {
                 </div>
               </div>
             </div>
-          )}
 
-          {gameState === 'STAGE_CLEAR' && (
-            <div
+          <div
               className="absolute inset-0 bg-black/90 flex flex-col items-center justify-center text-center p-6 z-50"
+              style={{ display: gameState === 'STAGE_CLEAR' ? 'flex' : 'none' }}
             >
               <h2 className="text-3xl font-black italic text-[#4ade80] mb-2 uppercase tracking-tighter">Mission Accomplished</h2>
               <div className="bg-white/5 border border-white/10 rounded-2xl p-6 w-full max-w-xs mb-6">
@@ -4937,11 +4935,10 @@ export default function App() {
                 </div>
               </div>
             </div>
-          )}
 
-          {gameState === 'VICTORY' && (
-            <div
+          <div
               className="absolute inset-0 bg-black/90 flex flex-col items-center justify-center text-center p-8 z-50"
+              style={{ display: gameState === 'VICTORY' ? 'flex' : 'none' }}
             >
               <div>
                 <Trophy className="w-20 h-20 text-yellow-500 mb-4" />
@@ -4978,11 +4975,10 @@ export default function App() {
                 </a>
               </div>
             </div>
-          )}
 
-          {gameState === 'GAMEOVER' && (
-            <div
+          <div
               className="absolute inset-0 bg-black/90 flex flex-col items-center justify-center text-center p-8 z-50"
+              style={{ display: gameState === 'GAMEOVER' ? 'flex' : 'none' }}
             >
               <h2 className="text-6xl font-black italic uppercase text-red-500 mb-2">Defeated</h2>
               <div className="mb-8">
@@ -5036,7 +5032,6 @@ export default function App() {
                 </button>
               </div>
             </div>
-          )}
         </>
       </div>
 
